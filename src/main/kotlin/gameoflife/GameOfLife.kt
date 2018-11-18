@@ -15,7 +15,7 @@ data class Board(val cells: Set<Cell>) {
     private fun extHorizontalCellRange(): IntRange =
             -1 + (cells.map { it.x }.min() ?: 0) .. (cells.map { it.x }.max() ?: 0) + 1
 
-    private fun extVerticaCellRange(): IntRange =
+    private fun extVerticalCellRange(): IntRange =
             -1 + (cells.map { it.y }.min() ?: 0) .. (cells.map { it.y }.max() ?: 0) + 1
 
     fun noOfNeighboursAround(x: Int, y: Int) =
@@ -41,7 +41,7 @@ data class Board(val cells: Set<Cell>) {
         }
 
         val allBoardCoords = extHorizontalCellRange().flatMap {
-            x -> extVerticaCellRange().map { y -> x to y }
+            x -> extVerticalCellRange().map { y -> x to y }
         }
 
         val newCells = allBoardCoords.mapNotNull {
