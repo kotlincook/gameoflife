@@ -1,6 +1,6 @@
 # Game of Life in Kotlin
 
-Some restrictions respected in this project are as follows:
+Some restrictions respected in this project due to the coderetreat rules are as follows:
 
 * No loops
 * only one dot per line
