@@ -1,12 +1,28 @@
-# Kotlin Kotlintest
+# Game of Life in Kotlin
 
-Minimal setup with Kotlin and kotlintest to get you started
+Some restrictions respected in this project are as follows:
+
+* No loops
+* only one dot per line
+* no abbreviations (almost)
+* 10 files per package
+* 50 lines per class (except the test class)
+* 4 lines per method
+* at most two instance variables per class
+* no getters/setters
+
+Not respected :)
+
+* don't use the else keyword
+* one level of indention per method
+
 
 ## Setup
+Minimal setup with Kotlin and kotlintest to get you started
 
-    git clone https://github.com/swkBerlin/kata-bootstraps
-    cd kotlin/kotlintest
-    gradle idea
+    git clone https://github.com/kotlincook/gameoflife.git
+    cd gameoflife
+    gradle build
 
 Open the directory in Idea.
 
@@ -17,9 +33,6 @@ To execute the tests run `gradle test` or run the tests from the IDE you are usi
 
 
 ## Optimized for Usage of
-- Kotlin 1.1
+- Kotlin 1.3
 - Gradle 3.4
-- IntelliJ Idea 2017
-
-It might work with other setups, but that is not tested. Pull requests welcome!
-
+- IntelliJ Idea 2018
