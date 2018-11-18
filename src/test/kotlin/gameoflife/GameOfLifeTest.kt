@@ -20,7 +20,7 @@ class GameOfLifeTest : StringSpec({
         board.noOfNeighboursAround(1, 1) shouldBe 0
     }
 
-    "test three neighbours i am present" {
+    "test three neighbours (i am present)" {
         val board = Board("""
                 |---
                 |**-
@@ -29,7 +29,7 @@ class GameOfLifeTest : StringSpec({
         board.noOfNeighboursAround(1, 1) shouldBe 3
     }
 
-    "test three neighbours i am absent" {
+    "test three neighbours (i am absent)" {
         val board = Board("""
                 |---
                 |*--
@@ -38,7 +38,7 @@ class GameOfLifeTest : StringSpec({
         board.noOfNeighboursAround(1, 1) shouldBe 3
     }
 
-    "test neighbours to far away" {
+    "test neighbours (are too far away)" {
         val input = """
                 |---
                 |**-
