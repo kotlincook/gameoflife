@@ -16,34 +16,6 @@ data class Board(val cells: Set<Cell>) {
             }.flatMap { it }.toSet())
 
     /**
-     * Calculates the next cell generation for the entire board
-     */
-    fun evolve(): Board {
-
-        /**
-         * Determines whether there will be a cell at position (x,y) in
-         * the next generation
-         */
-        fun evolveAt(x: Int, y: Int): Cell? {
-            if (cellAt(x, y) == null) {
-                return Cell(x, y).takeIf { noOfNeighboursAt(x, y) == 3 }
-            }
-            return Cell(x, y).takeIf { noOfNeighboursAt(x, y) in 2..3 }
-        }
-
-        // calculating the cross product of the two ranges:
-        val allBoardCoords = extendedHorizontalCellRange().flatMap {
-            x -> extendedVerticalCellRange().map { y -> x to y }
-        }
-
-        val newCells = allBoardCoords.mapNotNull {
-            (x, y) -> evolveAt(x, y)
-        }.toSet()
-
-        return Board(newCells)
-    }
-
-    /**
      * Returns the number of cells in the square neighbourhood at position (x,y)
      */
     fun noOfNeighboursAt(x: Int, y: Int): Int =
@@ -63,12 +35,41 @@ data class Board(val cells: Set<Cell>) {
      * New cells can only be spawned in a rectangle that is one larger (on each side)
      * than the bounding box.
      */
-    private fun extendedHorizontalCellRange(): IntRange =
+    fun extendedHorizontalCellRange(): IntRange =
             -1 + (cells.map { it.x }.min() ?: 0) .. (cells.map { it.x }.max() ?: 0) + 1
 
     /**
      * @see extendedHorizontalCellRange
      */
-    private fun extendedVerticalCellRange(): IntRange =
+    fun extendedVerticalCellRange(): IntRange =
             -1 + (cells.map { it.y }.min() ?: 0) .. (cells.map { it.y }.max() ?: 0) + 1
+}
+
+
+/**
+ * Calculates the next cell generation for the entire board
+ */
+fun Board.evolve(): Board {
+
+    /**
+     * Determines whether there will be a cell at position (x,y) in
+     * the next generation
+     */
+    fun evolveAt(x: Int, y: Int): Cell? {
+        if (cellAt(x, y) == null) {
+            return Cell(x, y).takeIf { noOfNeighboursAt(x, y) == 3 }
+        }
+        return Cell(x, y).takeIf { noOfNeighboursAt(x, y) in 2..3 }
+    }
+
+    // calculating the cross product of the two ranges:
+    val allBoardCoords = extendedHorizontalCellRange().flatMap {
+        x -> extendedVerticalCellRange().map { y -> x to y }
+    }
+
+    val newCells = allBoardCoords.mapNotNull {
+        (x, y) -> evolveAt(x, y)
+    }.toSet()
+
+    return Board(newCells)
 }
