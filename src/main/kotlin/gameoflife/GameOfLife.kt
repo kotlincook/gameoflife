@@ -33,11 +33,10 @@ data class Board(val cells: Set<Cell>) {
     fun evolve(): Board {
 
         fun evolveAt(x: Int, y: Int): Cell? {
-            return if (cellAt(x, y) == null) {
-                Cell(x, y).takeIf { noOfNeighboursAround(x, y) == 3 }
-            } else {
-                Cell(x, y).takeIf { noOfNeighboursAround(x, y) in 2..3 }
+            if (cellAt(x, y) == null) {
+                return Cell(x, y).takeIf { noOfNeighboursAround(x, y) == 3 }
             }
+            return Cell(x, y).takeIf { noOfNeighboursAround(x, y) in 2..3 }
         }
 
         val allBoardCoords = extHorizontalCellRange().flatMap {
