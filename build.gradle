@@ -1,16 +1,19 @@
 buildscript {
     ext.kotlin_version = '1.3.10'
+    ext.dokka_version = '0.9.17'
 
     repositories {
         jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'idea'
+apply plugin: 'org.jetbrains.dokka'
 
 repositories {
     jcenter()
@@ -18,5 +21,11 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-        testCompile 'io.kotlintest:kotlintest:2.0.7'
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testCompile 'io.kotlintest:kotlintest:2.0.7'
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
 }

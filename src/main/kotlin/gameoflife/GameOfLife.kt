@@ -4,6 +4,10 @@ data class Cell(val x: Int, val y: Int)
 
 data class Board(val cells: Set<Cell>) {
 
+    /**
+     * Converts the board given in a String representation into the
+     * internal format. This is used in the tests.
+     */
     constructor(matrix: String) : this(
             matrix.split(Regex("\\s+")).mapIndexed {
                 y, line -> line.mapIndexedNotNull {
@@ -11,36 +15,25 @@ data class Board(val cells: Set<Cell>) {
                 }
             }.flatMap { it }.toSet())
 
-
-    private fun extHorizontalCellRange(): IntRange =
-            -1 + (cells.map { it.x }.min() ?: 0) .. (cells.map { it.x }.max() ?: 0) + 1
-
-    private fun extVerticalCellRange(): IntRange =
-            -1 + (cells.map { it.y }.min() ?: 0) .. (cells.map { it.y }.max() ?: 0) + 1
-
-    fun noOfNeighboursAt(x: Int, y: Int) =
-            cells.filter { (cx, cy) ->
-                Math.abs(cx - x) <= 1 &&
-                Math.abs(cy - y) <= 1 &&
-                !(cx == x && cy == y)
-            }.size
-
-
-    fun cellAt(x: Int, y: Int): Cell? =
-            cells.find { it.x == x && it.y == y }
-
-
+    /**
+     * Calculates the next cell generation for the entire board
+     */
     fun evolve(): Board {
 
+        /**
+         * Determines whether there will be a cell at position (x,y) in
+         * the next generation
+         */
         fun evolveAt(x: Int, y: Int): Cell? {
-            if (cellAt(x, y) == null) {
+            if (cellOrNullAt(x, y) == null) {
                 return Cell(x, y).takeIf { noOfNeighboursAt(x, y) == 3 }
             }
             return Cell(x, y).takeIf { noOfNeighboursAt(x, y) in 2..3 }
         }
 
-        val allBoardCoords = extHorizontalCellRange().flatMap {
-            x -> extVerticalCellRange().map { y -> x to y }
+        // calculating the cross product of the two ranges:
+        val allBoardCoords = extendedHorizontalCellRange().flatMap {
+            x -> extendedVerticalCellRange().map { y -> x to y }
         }
 
         val newCells = allBoardCoords.mapNotNull {
@@ -49,4 +42,33 @@ data class Board(val cells: Set<Cell>) {
 
         return Board(newCells)
     }
+
+    /**
+     * Returns the number of cells in the square neighbourhood at position (x,y)
+     */
+    fun noOfNeighboursAt(x: Int, y: Int): Int =
+            cells.filter { (cx, cy) ->
+                Math.abs(cx - x) <= 1 &&
+                        Math.abs(cy - y) <= 1 &&
+                        !(cx == x && cy == y)
+            }.size
+
+    /**
+     * Returns the cell at position (x,y) if it exists, null else
+     */
+    fun cellOrNullAt(x: Int, y: Int): Cell? =
+            cells.find { it.x == x && it.y == y }
+
+    /**
+     * New cells can only be spawned in a rectangle that is one larger (on each side)
+     * than the bounding box.
+     */
+    private fun extendedHorizontalCellRange(): IntRange =
+            -1 + (cells.map { it.x }.min() ?: 0) .. (cells.map { it.x }.max() ?: 0) + 1
+
+    /**
+     * @see extendedHorizontalCellRange
+     */
+    private fun extendedVerticalCellRange(): IntRange =
+            -1 + (cells.map { it.y }.min() ?: 0) .. (cells.map { it.y }.max() ?: 0) + 1
 }
