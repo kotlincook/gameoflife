@@ -18,7 +18,7 @@ Remarks:
 * Furthermore, it uses functional collection elements instead of loops 
 and does not need mutable types.
 
-It is not surprising that the code has become very readable through these rules.
+It is not surprising that the code has become very readable due to these rules.
 
 
 ## Setup
