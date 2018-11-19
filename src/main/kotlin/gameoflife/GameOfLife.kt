@@ -25,7 +25,7 @@ data class Board(val cells: Set<Cell>) {
          * the next generation
          */
         fun evolveAt(x: Int, y: Int): Cell? {
-            if (cellOrNullAt(x, y) == null) {
+            if (cellAt(x, y) == null) {
                 return Cell(x, y).takeIf { noOfNeighboursAt(x, y) == 3 }
             }
             return Cell(x, y).takeIf { noOfNeighboursAt(x, y) in 2..3 }
@@ -56,7 +56,7 @@ data class Board(val cells: Set<Cell>) {
     /**
      * Returns the cell at position (x,y) if it exists, null else
      */
-    fun cellOrNullAt(x: Int, y: Int): Cell? =
+    fun cellAt(x: Int, y: Int): Cell? =
             cells.find { it.x == x && it.y == y }
 
     /**
