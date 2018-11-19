@@ -18,7 +18,7 @@ data class Board(val cells: Set<Cell>) {
     private fun extVerticalCellRange(): IntRange =
             -1 + (cells.map { it.y }.min() ?: 0) .. (cells.map { it.y }.max() ?: 0) + 1
 
-    fun noOfNeighboursAround(x: Int, y: Int) =
+    fun noOfNeighboursAt(x: Int, y: Int) =
             cells.filter { (cx, cy) ->
                 Math.abs(cx - x) <= 1 &&
                 Math.abs(cy - y) <= 1 &&
@@ -34,9 +34,9 @@ data class Board(val cells: Set<Cell>) {
 
         fun evolveAt(x: Int, y: Int): Cell? {
             if (cellAt(x, y) == null) {
-                return Cell(x, y).takeIf { noOfNeighboursAround(x, y) == 3 }
+                return Cell(x, y).takeIf { noOfNeighboursAt(x, y) == 3 }
             }
-            return Cell(x, y).takeIf { noOfNeighboursAround(x, y) in 2..3 }
+            return Cell(x, y).takeIf { noOfNeighboursAt(x, y) in 2..3 }
         }
 
         val allBoardCoords = extHorizontalCellRange().flatMap {
