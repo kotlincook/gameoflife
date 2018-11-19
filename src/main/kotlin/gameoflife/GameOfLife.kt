@@ -19,10 +19,11 @@ data class Board(val cells: Set<Cell>) {
      * Returns the number of cells in the square neighbourhood at position (x,y)
      */
     fun noOfNeighboursAt(x: Int, y: Int): Int =
-            cells.filter { (cx, cy) ->
-                Math.abs(cx - x) <= 1 &&
-                        Math.abs(cy - y) <= 1 &&
-                        !(cx == x && cy == y)
+            cells.filter {
+                (cx, cy) ->
+                    Math.abs(cx - x) <= 1 &&
+                    Math.abs(cy - y) <= 1 &&
+                    !(cx == x && cy == y)
             }.size
 
     /**
